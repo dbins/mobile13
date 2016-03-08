@@ -1,7 +1,11 @@
-th {
+	table {
+		width: 100%
+	}
+	th {
 		background: #000000;
 		color:#FFFFFF;
 		border-bottom: 1px solid #d6d6d6;
+		padding: 10px;
 	}
 
 	tr:nth-child(even) {
@@ -37,3 +41,5 @@ th {
 		-webkit-border-radius: 4px;
 		border-radius: 4px;
 	}
+	
+	

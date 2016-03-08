@@ -16,6 +16,10 @@ try {
 	alert(JSON.stringify(e));
 }
 
+function pad(s) { 
+	return (s < 10) ? '0' + s : s; 
+}
+
 function isNumberKey(evt) {
 	var charCode = (evt.which) ? evt.which : event.keyCode;
 	if (charCode > 31 && (charCode < 48 || charCode > 57)){
@@ -98,22 +102,27 @@ function listarVendas_success(tx, results) {
 	} else {
 		var len = results.rows.length;
 		if (len==0){
-			var html ='<tr><td colspan=5>Nao existem informacoes</td></tr>';
+			var html ='<tr><td colspan="5" align="center">Nao existem informacoes</td></tr>';
 			$("#analitico > tbody").append(html);
 		}
 		for (var i=0; i<len; i++) {
 			var venda = results.rows.item(i);
-			html ='<tr><td>' + venda.data + '</td>' +
+			
+			var tmp_data;
+			var d = new Date(venda.data);
+			var tmp_data = [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
+			
+			html ='<tr><td>' + tmp_data + '</td>' +
 				  '<td>' + venda.produto + '</td>' +
-				  '<td>' + venda.quantidade + '</td>' +
-				  '<td>' + venda.valor  + '</td>' +
-				  '<td><a href="#" onclick="excluirVenda(' + venda.id + ');" data-role="button" data-icon="delete">Excluir</a></td>' +
+				  '<td align="center">' + venda.quantidade + '</td>' +
+				  '<td align="center">' + venda.valor  + '</td>' +
+				  '<td align="center"><a href="#" onclick="excluirVenda(' + venda.id + ');"  data-role="button" data-icon="delete" data-iconpos="notext" >Excluir</a></td>' +
 				  
 				  '</tr>';
 			$("#analitico > tbody").append(html);
 		}
 	}
-	$("#analitico").table().table("refresh");   
+	$("#analitico").trigger('create');
 	//db = null;
 }
 
@@ -148,7 +157,7 @@ function ExcluirVendas(tx) {
 }
 
 function excluirVendas_success(tx, results) {
-	alert('Venda excluida com sucesso!');
+	//alert('Venda excluida com sucesso!');
 	//Recarregar a pagina
 	PaginaAtual("tab3")
 }
@@ -162,20 +171,21 @@ function Resumo(tx) {
 function Resumo_success(tx, results) {
 	$('#tabela_resumo > tbody').html('');
 	if (typeof results == "undefined") {
-		var html ='<tr><td colspan=2>Nao existem informacoes</td></tr>';
+		var html ='<tr><td colspan="2" align="center">Nao existem informacoes</td></tr>';
 		$("#tabela_produto > tbody").append(html);
 	} else {
 		var len = results.rows.length;
 		for (var i=0; i<len; i++) {
 			var venda = results.rows.item(i);
 			var html ='<tr>' +
-		      '<td>' + venda.quantidade + '</td>' +
-			  '<td>' + venda.valor  + '</td>' +
+		      '<td align="center">' + venda.quantidade + '</td>' +
+			  '<td align="center">' + venda.valor  + '</td>' +
 			  '</tr>';
 			$("#tabela_resumo > tbody").append(html);
 		}
 	}
-	$("#tabela_resumo").table().table("refresh");   
+	//$("#tabela_resumo").table().table("refresh");  
+	$("#tabela_resumo").trigger('create');
 	//db = null;
 }
 
@@ -188,24 +198,25 @@ function SinteticoPorProduto(tx) {
 function SinteticoPorProduto_success(tx, results) {
 	$('#tabela_produto > tbody').html('');
 	if (typeof results == "undefined") {
-		var html ='<tr><td colspan=3>Nao existem informacoes</td></tr>';
+		var html ='<tr><td colspan="3" align="center">Nao existem informacoes</td></tr>';
 		$("#tabela_produto > tbody").append(html);
 	} else {	
     var len = results.rows.length;
 	if (len==0){
-		var html ='<tr><td colspan=3>Nao existem informacoes</td></tr>';
+		var html ='<tr><td colspan="3" align="center">Nao existem informacoes</td></tr>';
 		$("#tabela_produto > tbody").append(html);
 	}
 	for (var i=0; i<len; i++) {
     	var venda = results.rows.item(i);
 		var html ='<tr><td>' + venda.produto + '</td>' +
-		      '<td>' + venda.quantidade + '</td>' +
-			  '<td>' + venda.valor  + '</td>' +
+		      '<td align="center">' + venda.quantidade + '</td>' +
+			  '<td align="center">' + venda.valor  + '</td>' +
 			  '</tr>';
 		$("#tabela_produto > tbody").append(html);
     }
 	}
-	$("#tabela_produto").table().table("refresh");   
+	//$("#tabela_produto").table().table("refresh");  
+	$("#tabela_produto").trigger('create');
 	//db = null;
 }
 
@@ -217,24 +228,29 @@ function SinteticoPorData(tx) {
 function SinteticoPorData_success(tx, results) {
 	$('#tabela_data > tbody').html('');
 	if (typeof results == "undefined") {
-		var html ='<tr><td colspan=3>Nao existem informacoes</td></tr>';
+		var html ='<tr><td colspan="3" align="center">Nao existem informacoes</td></tr>';
 		$("#tabela_data > tbody").append(html);
 	} else {	
 		var len = results.rows.length;
 		if (len==0){
-			var html ='<tr><td colspan=3>Nao existem informacoes</td></tr>';
+			var html ='<tr><td colspan="3" align="center">Nao existem informacoes</td></tr>';
 			$("#tabela_data > tbody").append(html);
 		}
 		for (var i=0; i<len; i++) {
 			var venda = results.rows.item(i);
-			var html ='<tr><td>' + venda.data + '</td>' +
-				  '<td>' + venda.quantidade + '</td>' +
-				  '<td>' + venda.valor  + '</td>' +
+			var tmp_data;
+			var d = new Date(venda.data);
+			var tmp_data = [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
+			var html ='<tr><td>' + tmp_data + '</td>' +
+				  '<td align="center">' + venda.quantidade + '</td>' +
+				  '<td align="center">' + venda.valor  + '</td>' +
 				  '</tr>';
 			$("#tabela_data > tbody").append(html);
 		}
 	}
-	$("#tabela_data").table().table("refresh");   
+	//$("#tabela_data").table().table("refresh"); 
+	$("#tabela_data").trigger('create');
+
 	//db = null;
 }
 
