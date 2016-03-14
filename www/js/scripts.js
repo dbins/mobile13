@@ -75,7 +75,8 @@ function populateDB_success() {
 }
 
 function populateDB(tx) {
-	tx.executeSql('DROP TABLE IF EXISTS vendas');
+	//Desativar em producao
+	//tx.executeSql('DROP TABLE IF EXISTS vendas');
 	var sql = 
 		"CREATE TABLE IF NOT EXISTS vendas ( "+
 		"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -179,7 +180,7 @@ function Resumo_success(tx, results) {
 			var venda = results.rows.item(i);
 			var html ='<tr>' +
 		      '<td align="center">' + venda.quantidade + '</td>' +
-			  '<td align="center">' + venda.valor  + '</td>' +
+			  '<td align="center">R$ ' + venda.valor  + '</td>' +
 			  '</tr>';
 			$("#tabela_resumo > tbody").append(html);
 		}
@@ -210,7 +211,7 @@ function SinteticoPorProduto_success(tx, results) {
     	var venda = results.rows.item(i);
 		var html ='<tr><td>' + venda.produto + '</td>' +
 		      '<td align="center">' + venda.quantidade + '</td>' +
-			  '<td align="center">' + venda.valor  + '</td>' +
+			  '<td align="center">R$ ' + venda.valor  + '</td>' +
 			  '</tr>';
 		$("#tabela_produto > tbody").append(html);
     }
@@ -243,7 +244,7 @@ function SinteticoPorData_success(tx, results) {
 			var tmp_data = [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
 			var html ='<tr><td>' + tmp_data + '</td>' +
 				  '<td align="center">' + venda.quantidade + '</td>' +
-				  '<td align="center">' + venda.valor  + '</td>' +
+				  '<td align="center">R$ ' + venda.valor  + '</td>' +
 				  '</tr>';
 			$("#tabela_data > tbody").append(html);
 		}
