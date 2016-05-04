@@ -32,6 +32,27 @@
 		//$.datepicker.setDefaults($.datepicker.regional['nl']);
 	//});
 	</script>
+	<style type="text/css">
+		html { height: 100% } 
+		body { height: 100%; margin: 0; }
+		.ui-footer {
+			position: absolute !important;
+			bottom: 0;
+			width: 100%;
+		}
+		
+		.conteudo_tab {
+		
+			overflow: auto;
+			-webkit-overflow-scrolling: touch;
+			max-height: 350px;
+		}
+	</style>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$(".conteudo_tab").css('max-height',$(window).height()-200);
+	});	
+	</script>
 </head>
    <body> 
         <div data-role="page" id="main">
@@ -50,6 +71,7 @@
                 </div>
                 <div class="tab2 ui-screen-hidden">
                      <h1>Inserir Vendas</h1>
+					 <div class="conteudo_tab">
 					 <form id="check-vendas" data-ajax="false">
 					  <div>
 						<div class="campos100">
@@ -78,9 +100,11 @@
 					  </div>
 					  <input type="submit" data-inline="true" id="enviar_venda" value="Gravar">
 					</form>
+					</div>
                 </div>
                 <div class="tab3 ui-screen-hidden">
                     <h1>Vendas Gravadas</h1>
+					<div class="conteudo_tab">
 					<table class="ui-responsive" id="analitico">
 						<thead>
 							<tr>
@@ -95,9 +119,11 @@
 							
 						</tbody>
 					</table>
+					</div>
                 </div>
                 <div class="tab4 ui-screen-hidden">
                     <h1>Resumo</h1>
+					<div class="conteudo_tab">
 					<table class="ui-responsive" id="tabela_resumo">
 						<thead>
 							<tr>
@@ -138,6 +164,7 @@
 											
 						</tbody>
 					</table>
+					</div>
                 </div>
             </div>
         </div><!-- /content -->
