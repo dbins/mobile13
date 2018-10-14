@@ -173,15 +173,27 @@ function Resumo_success(tx, results) {
 	$('#tabela_resumo > tbody').html('');
 	if (typeof results == "undefined") {
 		var html ='<tr><td colspan="2" align="center">Nao existem informacoes</td></tr>';
-		$("#tabela_produto > tbody").append(html);
+		$("#tabela_resumo > tbody").append(html);
 	} else {
 		var len = results.rows.length;
+		if (len==0){
+		var html ='<tr><td colspan="2" align="center">Nao existem informacoes</td></tr>';
+			$("#tabela_resumo > tbody").append(html);
+		}
+		var contador = 0;
 		for (var i=0; i<len; i++) {
 			var venda = results.rows.item(i);
+			if (venda.quantidade != null){
+			contador++;
 			var html ='<tr>' +
 		      '<td align="center">' + venda.quantidade + '</td>' +
 			  '<td align="center">R$ ' + venda.valor  + '</td>' +
 			  '</tr>';
+			$("#tabela_resumo > tbody").append(html);
+			}
+		}
+		if (contador==0){
+		var html ='<tr><td colspan="2" align="center">Nao existem informacoes</td></tr>';
 			$("#tabela_resumo > tbody").append(html);
 		}
 	}
@@ -189,6 +201,7 @@ function Resumo_success(tx, results) {
 	$("#tabela_resumo").trigger('create');
 	//db = null;
 }
+
 
 //Resumo Sintetico das Vendas
 function SinteticoPorProduto(tx) {
